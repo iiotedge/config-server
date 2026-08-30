@@ -1,4 +1,10 @@
 spring:
+  security:
+    user:
+      # Required - no fallback, same reasoning as eureka-server's own prod
+      # profile: a real deployment must supply a real, dedicated credential.
+      name: ${SPRING_SECURITY_CONFIG_USERNAME}
+      password: ${SPRING_SECURITY_CONFIG_PASSWORD}
   cloud:
     config:
       server:
@@ -12,4 +18,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_SERVICE_URL:http://eureka-server.default.svc.cluster.local:8761/eureka/}
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka-server.default.svc.cluster.local:8761/eureka/}

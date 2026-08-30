@@ -1,0 +1,24 @@
+# "native" (filesystem) backend for tests only - no real git/network
+# access needed to prove the security boundary, and it lets this test
+# also prove a real config document is actually served correctly once
+# authenticated, not just that auth is enforced.
+#
+# Neither spring.profiles.active NOR spring.profiles.include can be set
+# from within a profile-specific document as of Spring Boot 2.4+ - both
+# are rejected at startup (InvalidConfigDataPropertyException). So "native"
+# is activated directly via @ActiveProfiles({"test", "native"}) on the
+# test classes instead of from in here.
+spring:
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config-repo
+  security:
+    user:
+      name: test-admin
+      password: test-password
+
+eureka:
+  client:
+    enabled: false

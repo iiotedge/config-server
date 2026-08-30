@@ -1,0 +1,27 @@
+# Standalone compose file for running config-server on its own via plain
+# Docker. For the whole local platform stack together, see
+# data-ingestion-service/docker-compose.yml.
+#
+# Usage:
+#   ./mvnw clean package -DskipTests && docker build -t config-server .
+#   SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD=<a-real-token> \
+#   CONFIG_SECURITY_PASSWORD=<a-real-value> \
+#   docker compose up
+services:
+  config-server:
+    build: .
+    image: config-server:local
+    container_name: config-server
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_CLOUD_CONFIG_SERVER_GIT_URI: ${CONFIG_GIT_URI:-https://github.com/S-8506/configuration.git}
+      SPRING_CLOUD_CONFIG_SERVER_GIT_USERNAME: ${CONFIG_GIT_USERNAME:?Set CONFIG_GIT_USERNAME}
+      # No safe default for a real git credential - see application-dev.yml's
+      # own comment on the leaked token this replaced.
+      SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD: ${SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD:?Set SPRING_CLOUD_CONFIG_SERVER_GIT_PASSWORD}
+      SPRING_SECURITY_CONFIG_USERNAME: ${CONFIG_SECURITY_USERNAME:-admin}
+      SPRING_SECURITY_CONFIG_PASSWORD: ${CONFIG_SECURITY_PASSWORD:?Set CONFIG_SECURITY_PASSWORD}
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:-http://host.docker.internal:8761/eureka/}
