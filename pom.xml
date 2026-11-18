@@ -14,7 +14,7 @@
     <parent>
         <groupId>com.iiotedge.build</groupId>
         <artifactId>iiotedge-parent</artifactId>
-        <version>2025.08.18</version>
+        <version>2026.11.18</version>
         <relativePath/>
     </parent>
 
@@ -35,7 +35,7 @@
             <dependency>
                 <groupId>com.iiotedge.build</groupId>
                 <artifactId>iiotedge-bom</artifactId>
-                <version>2025.08.18</version>
+                <version>2026.11.18</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -77,6 +77,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Spring Boot 4 moved @AutoConfigureMockMvc into spring-boot-webmvc-test. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
